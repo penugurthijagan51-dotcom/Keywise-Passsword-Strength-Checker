@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Check and improve your password strength privately. Every check runs locally in your browser."
+    />
+    <meta name="theme-color" content="#f7f7f4" />
+    <title>Keywise — Password strength, made clear</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#" aria-label="Keywise home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none">
+            <path d="M19.5 5.5a9 9 0 1 0 7 14.65L30 23.6v4.9h-4.9l-1.65-1.65V23.5H20.5l-1.28-1.28" />
+            <circle cx="12.5" cy="14.5" r="2.2" />
+          </svg>
+        </span>
+        <span>keywise<span class="brand-period">.</span></span>
+      </a>
+      <div class="privacy-pill">
+        <span class="privacy-dot" aria-hidden="true"></span>
+        Private by design
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="eyebrow"><span></span> YOUR PASSWORD, YOUR BUSINESS</div>
+          <h1 id="hero-title">Make your next<br />password <span>stronger.</span></h1>
+          <p class="hero-description">
+            Get a clearer picture of your password in seconds, with helpful tips
+            that never leave your device.
+          </p>
+          <div class="hero-points">
+            <span><span class="check-icon">✓</span> Instant feedback</span>
+            <span><span class="check-icon">✓</span> No account needed</span>
+          </div>
+        </div>
+
+        <div class="hero-art" aria-hidden="true">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="art-spark spark-one">✳</div>
+          <div class="art-spark spark-two">✦</div>
+          <div class="art-card">
+            <div class="art-lock">
+              <svg viewBox="0 0 48 48" fill="none">
+                <rect x="10" y="21" width="28" height="21" rx="6" />
+                <path d="M16 21v-6a8 8 0 0 1 16 0v6" />
+                <circle cx="24" cy="31" r="2.5" />
+                <path d="M24 33.5v3" />
+              </svg>
+            </div>
+            <span class="art-label">A little more peace of mind</span>
+            <div class="art-strength">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <span class="art-strength-label">BUILT AROUND YOU</span>
+          </div>
+          <div class="floating-note"><span>✦</span> Your privacy comes first</div>
+        </div>
+      </section>
+
+      <section class="checker-section" aria-label="Password checker">
+        <div class="checker-card">
+          <div class="checker-main">
+            <div class="card-heading">
+              <div>
+                <span class="section-label">PASSWORD CHECKUP</span>
+                <h2>How strong is yours?</h2>
+              </div>
+              <span class="live-badge"><span></span> LIVE CHECK</span>
+            </div>
+
+            <label class="field-label" for="password-input">Your password</label>
+            <div class="password-field" id="password-field">
+              <svg class="field-lock" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="4.5" y="10" width="15" height="11" rx="3" />
+                <path d="M8 10V7a4 4 0 1 1 8 0v3" />
+              </svg>
+              <input
+                id="password-input"
+                type="password"
+                placeholder="Type a password to check"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false"
+                aria-describedby="privacy-note"
+              />
+              <button class="icon-button" id="toggle-password" type="button" aria-label="Show password" title="Show password">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M2.5 12s3.3-6 9.5-6 9.5 6 9.5 6-3.3 6-9.5 6-9.5-6-9.5-6Z" />
+                  <circle cx="12" cy="12" r="2.7" />
+                </svg>
+              </button>
+              <button class="clear-button" id="clear-password" type="button" aria-label="Clear password" title="Clear password" hidden>
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="m5 5 10 10M15 5 5 15" />
+                </svg>
+              </button>
+            </div>
+            <p class="privacy-note" id="privacy-note">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <rect x="3" y="7" width="10" height="7" rx="2" />
+                <path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" />
+              </svg>
+              Your password is checked on this device only.
+            </p>
+
+            <div class="meter-heading">
+              <span>Strength</span>
+              <span class="strength-name" id="strength-name">Waiting for input</span>
+            </div>
+            <div
+              class="meter-track"
+              id="strength-meter"
+              role="progressbar"
+              aria-label="Password strength"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+              aria-valuetext="Waiting for input"
+            >
+              <span id="meter-fill"></span>
+            </div>
+
+            <div class="score-row">
+              <span id="score-description">Start typing to see your results.</span>
+              <span class="score-value" id="score-value">—<small>/100</small></span>
+            </div>
+
+            <div class="checks-heading">
+              <span class="section-label">THE STRENGTH BREAKDOWN</span>
+              <span class="checks-count" id="checks-count">0 / 9</span>
+            </div>
+            <ul class="checks-list" id="checks-list">
+              <li class="check-row" data-check="length12"><span class="check-status"></span><span>At least 12 characters</span></li>
+              <li class="check-row" data-check="length16"><span class="check-status"></span><span>At least 16 characters</span></li>
+              <li class="check-row" data-check="lowercase"><span class="check-status"></span><span>Lowercase letters</span></li>
+              <li class="check-row" data-check="uppercase"><span class="check-status"></span><span>Uppercase letters</span></li>
+              <li class="check-row" data-check="number"><span class="check-status"></span><span>Numbers</span></li>
+              <li class="check-row" data-check="symbol"><span class="check-status"></span><span>Symbols</span></li>
+              <li class="check-row" data-check="common"><span class="check-status"></span><span>Avoids common passwords</span></li>
+              <li class="check-row" data-check="sequence"><span class="check-status"></span><span>Avoids obvious sequences</span></li>
+              <li class="check-row" data-check="repeat"><span class="check-status"></span><span>Avoids repeated patterns</span></li>
+            </ul>
+          </div>
+
+          <aside class="insights-panel" aria-labelledby="insights-title">
+            <div class="insight-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="m12 3 1.9 5.8L20 11l-6.1 2.2L12 19l-2.1-5.8L4 11l5.9-2.2L12 3Z" />
+                <path d="m19 15 .9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15Z" />
+              </svg>
+            </div>
+            <span class="section-label">SMART INSIGHTS</span>
+            <h3 id="insights-title">A little guidance goes a long way.</h3>
+            <p class="insights-intro" id="insights-intro" aria-live="polite">
+              Add a password above and we’ll share a few thoughtful ways to make it stronger.
+            </p>
+            <ul class="suggestions-list" id="suggestions-list" aria-live="polite">
+              <li>Go for 16 characters or more.</li>
+              <li>Mix letters, numbers, and symbols.</li>
+              <li>Try a few unrelated words.</li>
+            </ul>
+            <div class="insight-divider"></div>
+            <div class="estimate-box">
+              <span class="estimate-icon" aria-hidden="true">◷</span>
+              <div>
+                <span class="estimate-label">ROUGH CRACKING ESTIMATE</span>
+                <strong id="crack-estimate">Waiting for a password</strong>
+              </div>
+            </div>
+            <p class="estimate-disclaimer">
+              A rough, simplified estimate — not a security guarantee.
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="generator-section" aria-labelledby="generator-title">
+        <div class="generator-intro">
+          <span class="section-label">NEED A FRESH START?</span>
+          <h2 id="generator-title">Make one that’s<br /><span>yours alone.</span></h2>
+          <p>Let your browser create a random password for you. Nothing is saved or sent anywhere.</p>
+          <div class="local-note"><span class="local-icon">⌘</span> Made locally with your browser’s secure random generator</div>
+        </div>
+        <div class="generator-card">
+          <div class="generator-card-top">
+            <div>
+              <span class="section-label">PASSWORD GENERATOR</span>
+              <h3>Your next strong password</h3>
+            </div>
+            <span class="generator-spark" aria-hidden="true">✳</span>
+          </div>
+          <div class="generated-field">
+            <output id="generated-password" aria-label="Generated password">Click generate to begin</output>
+            <button class="icon-button copy-button" id="copy-password" type="button" aria-label="Copy generated password" title="Copy password" disabled>
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="8" y="8" width="12" height="13" rx="2" />
+                <path d="M16 8V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h2" />
+              </svg>
+            </button>
+          </div>
+          <div class="generator-controls">
+            <label class="length-control" for="length-input">
+              <span>Length <strong id="length-value">20</strong></span>
+              <input id="length-input" type="range" min="12" max="32" value="20" />
+              <span class="range-labels"><span>12</span><span>32</span></span>
+            </label>
+            <div class="generator-options">
+              <label><input id="include-numbers" type="checkbox" checked /> Numbers</label>
+              <label><input id="include-symbols" type="checkbox" checked /> Symbols</label>
+            </div>
+          </div>
+          <button class="generate-button" id="generate-password" type="button">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M16 6V3m0 3h-3M4 14v3m0-3h3" />
+              <path d="M5.4 7.1A5.5 5.5 0 0 1 15 5l1 1m-11 8-1-1a5.5 5.5 0 0 1 9.6-2.1" />
+            </svg>
+            Generate a password
+          </button>
+          <p class="generator-status" id="generator-status" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="trust-strip" aria-label="Privacy commitments">
+        <div><span>01</span><strong>Nothing is uploaded</strong></div>
+        <div><span>02</span><strong>No passwords are stored</strong></div>
+        <div><span>03</span><strong>Free, simple, and private</strong></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a class="brand footer-brand" href="#" aria-label="Keywise home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none">
+            <path d="M19.5 5.5a9 9 0 1 0 7 14.65L30 23.6v4.9h-4.9l-1.65-1.65V23.5H20.5l-1.28-1.28" />
+            <circle cx="12.5" cy="14.5" r="2.2" />
+          </svg>
+        </span>
+        <span>keywise<span class="brand-period">.</span></span>
+      </a>
+      <p>Thoughtful security starts with a stronger password.</p>
+      <span>Made with care · Checked on your device</span>
+    </footer>
+  </body>
+</html>
